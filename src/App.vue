@@ -1,28 +1,40 @@
 <template>
+
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Wizard @done="sendEntity" v-slot="{wizard}" >
+
+        <Page header="Name" :canNext="entity.name !== ''">
+          <form @submit="$event.preventDefault() || wizard.next()">
+            <input type="text" v-model="entity.name"/>
+          </form>
+        </Page>
+
+        <Page header="Summary">
+          you have choosen "{{entity.name}}" as name
+        </Page>
+
+    </Wizard>
   </div>
+
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Wizard from './components/Wizard.vue'
+import Page from './components/Page.vue'
 
 export default {
   name: 'app',
+  data() {
+    return {entity: {name: ''}};
+  },
   components: {
-    HelloWorld
+    Wizard,
+    Page
+  },
+  methods: {
+    sendEntity() {
+      debugger
+    }
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
